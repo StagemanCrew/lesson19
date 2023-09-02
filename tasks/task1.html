@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>task-1</title>
+</head>
+<body>
+    <h3>
+        Дано 10 рядків тексту «Hello!» у окремих div. При кліку на якийсь із них усі наступні повинні бути зафарбовані у червоний колір.
+    </h3><hr>
+
+    <style>
+        .container {
+            display: inline-block;
+        }
+        .container div {
+            cursor: pointer;
+            }
+    </style>
+
+    <div class="container">
+        <div><h4>Hello!</h4></div>
+        <div><h4>Hello!</h4></div>
+        <div><h4>Hello!</h4></div>
+        <div><h4>Hello!</h4></div>
+        <div><h4>Hello!</h4></div>
+        <div><h4>Hello!</h4></div>
+        <div><h4>Hello!</h4></div>
+        <div><h4>Hello!</h4></div>
+        <div><h4>Hello!</h4></div>
+        <div><h4>Hello!</h4></div>
+    </div><hr>
+
+
+    <script>
+        const divs = document.querySelectorAll('.container > div')
+    
+        divs.forEach((div, index) => {
+            div.addEventListener('click', () => {
+                for (let i = index + 1; i < divs.length; i++) {
+                    divs[i].querySelector('h4').style.color = 'red'
+                }
+            })
+        })
+    </script>
+
+</body>
+</html>
+
+    <!-- <script>
+        const divs = document.querySelectorAll('.container > div')
+
+        divs.forEach((div, index) => {
+            div.addEventListener('click', () => {
+                for (let i = index + 1; i < divs.length; i++) {
+                    const h4 = divs[i].querySelector('h4')
+                    h4.style.color = 'red'
+                }
+            })
+        })
+    </script> -->
+
+        <!-- <script>
+        const divs = document.querySelectorAll('.container > div')
+
+        divs.forEach((div, index) => {
+            div.addEventListener('click', () => {
+                divs.forEach((innerDiv, innerIndex) => {
+                    if (innerIndex > index) {
+                        const h4 = innerDiv.querySelector('h4')
+                        h4.style.color = 'red'
+                    }
+                })
+            })
+        })
+    </script> -->
+
+    <!-- <script>
+        const divs = document.querySelectorAll('.container > div')
+    
+        let clickedIndexes = []
+    
+        divs.forEach((div, index) => {
+            div.addEventListener('click', () => {
+                if (!clickedIndexes.includes(index)) {
+                    clickedIndexes.push(index)
+                    for (let i = index + 1; i < divs.length; i++) {
+                        divs[i].querySelector('h4').style.color = 'red'
+                    }
+                }
+            })
+        })
+    </script> -->
+
+    <!-- <script>
+        const divs = document.querySelectorAll('.container > div')
+    
+        divs.forEach((div, index) => {
+            div.addEventListener('click', () => {
+                for (let i = index + 1; i < divs.length; i++) {
+                    const h4 = divs[i].querySelector('h4')
+                    if (h4.style.color !== 'red') {
+                        h4.style.color = 'red'
+                    } else {
+                        break
+                    }
+                }
+            })
+        })
+    </script> -->
+
+    <!-- <script>
+        const divs = document.querySelectorAll('.container > div')
+    
+        divs.forEach((div, index) => {
+            div.addEventListener('click', () => {
+                for (let i = index + 1; i < divs.length; i++) {
+                    divs[i].querySelector('h4').style.color = 'red'
+                }
+            })
+        })
+    </script> -->

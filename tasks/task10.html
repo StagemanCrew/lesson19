@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>task-10</title>
+</head>
+<body>
+    <h3>
+        Гра «Знайти пару».  Дано список зображень. Кожне із зображень двічі використовується як фон для картки, але воно приховане. При кліку на 2 картки їх зображення відриваються. Якщо зображення однакові, то залишаємо їх відкритими. Інакше через 1 секунду знову приховуємо.
+    </h3><hr>
+
+    <style>
+        .card {
+        width: 100px;
+        height: 100px;
+        background-color: #ccc;
+        margin: 10px;
+        padding: 10px;
+        display: inline-block;
+        cursor: pointer;
+        background-size: 90px 100px;
+        background-position: center;
+        background-repeat: no-repeat;
+        }
+    </style>
+
+    <div id="game-container"></div><hr>
+
+    <script>
+
+        class Card {
+            constructor(imageUrl) {
+                this.imageUrl = imageUrl
+                this.element = this.createCardElement()
+                this.isOpen = false
+                this.isMatched = false
+                this.isClickable = true
+            }
+
+            createCardElement() {
+                const cardElement = document.createElement('div')
+                cardElement.classList.add('card')
+                cardElement.style.backgroundImage = `url(${this.imageUrl})`
+                cardElement.addEventListener('click', () => this.flip())
+                return cardElement
+            }
+
+            flip() {
+                if (!this.isClickable || this.isOpen || this.isMatched) return
+
+                this.isOpen = true
+                this.element.style.backgroundImage = `url(${this.imageUrl})`
+
+                if (!selectedCard) {
+                    selectedCard = this
+                } else {
+                    if (selectedCard.imageUrl === this.imageUrl) {
+                        selectedCard.isMatched = true
+                        this.isMatched = true
+                        selectedCard.isClickable = false
+                        this.isClickable = false
+                        selectedCard = null
+                    } else {
+                        this.isClickable = false
+                        setTimeout(() => {
+                            selectedCard.close()
+                            this.close()
+                            selectedCard = null
+                        }, 1000)
+                    }
+                }
+            }
+
+            close() {
+                this.isOpen = false
+                this.element.style.backgroundImage = ''
+                this.isClickable = true
+            }
+        }
+
+        const images = ['../img/1.png', '../img/2.png', '../img/3.png', '../img/4.png', '../img/5.png']
+        const doubledImages = images.concat(images)
+        doubledImages.sort(() => Math.random() - 0.5)
+
+        const gameContainer = document.getElementById('game-container')
+        let selectedCard = null
+
+        for (let i = 0; i < 2; i++) {
+            const rowContainer = document.createElement('div')
+            rowContainer.style.display = 'flex'
+            for (let j = 0; j < 5; j++) {
+                const index = i * 5 + j
+                const imageUrl = doubledImages[index]
+                const card = new Card(imageUrl)
+                rowContainer.appendChild(card.element)
+            }
+            gameContainer.appendChild(rowContainer)
+        }
+
+        setTimeout(() => {
+            changeCardImages()
+        }, 5000)
+
+        function changeCardImages() {
+            const cards = document.querySelectorAll('.card')
+            cards.forEach(card => {
+                card.style.backgroundImage = `url('../img/8.png')`
+            })
+        }
+
+    </script>
+
+</body>
+</html>

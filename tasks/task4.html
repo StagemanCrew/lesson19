@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>task-4</title>
+
+</head>
+<body>
+    <h3>
+        Дано 3 таблиці розмірності 3*3 з випадковими числами. Якщо відбувається клік на якійсь із клітинок, то до відповідної таблиці додається червона рамка (спробуйте додати можливість відображення кількості кліків біля назви таблиці з використанням відповідно доданого для цього атрибута).
+    </h3><hr>
+
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+        td {
+            padding: 5px;
+            cursor: pointer;
+        }
+        .redBorder {
+            border: 1px solid red;
+        }
+    </style>
+
+    <h3>Таблиця 1 <span id="table1Clicks">(0 кліків)</span></h3>
+    <table id="table1">
+    <tr>
+        <td>11</td>
+        <td>12</td>
+        <td>13</td>
+    </tr>
+    <tr>
+        <td>21</td>
+        <td>22</td>
+        <td>23</td>
+    </tr>
+    <tr>
+        <td>31</td>
+        <td>32</td>
+        <td>33</td>
+    </tr>
+    </table>
+    <h3>Таблиця 2 <span id="table2Clicks">(0 кліків)</span></h3>
+    <table id="table2">
+    <tr>
+        <td>41</td>
+        <td>42</td>
+        <td>43</td>
+    </tr>
+    <tr>
+        <td>51</td>
+        <td>52</td>
+        <td>53</td>
+    </tr>
+    <tr>
+        <td>61</td>
+        <td>62</td>
+        <td>63</td>
+    </tr>
+    </table>
+    <h3>Таблиця 3 <span id="table3Clicks">(0 кліків)</span></h3>
+    <table id="table3">
+    <tr>
+        <td>71</td>
+        <td>72</td>
+        <td>73</td>
+    </tr>
+    <tr>
+        <td>81</td>
+        <td>82</td>
+        <td>83</td>
+    </tr>
+    <tr>
+        <td>91</td>
+        <td>92</td>
+        <td>93</td>
+    </tr>
+    </table><hr>
+
+    <script>
+        // Отримуємо всі таблиці на сторінці
+        const tables = document.querySelectorAll('table')
+        // Масив для зберігання лічильників кліків для кожної таблиці
+        const tableClicks = [0, 0, 0]
+        // Додаємо обробник події "click" для кожної таблиці
+        tables.forEach((table, index) => {
+            table.addEventListener('click', () => {
+            // Знімаємо підсвічення з усіх таблиць
+            tables.forEach((t) => {
+                t.classList.remove('redBorder')
+            })
+
+            // Додаємо червону рамку до клікнутої таблиці
+            table.classList.add('redBorder')
+
+            // Збільшуємо лічильник кліків
+            tableClicks[index]++
+            document.getElementById(`table${index + 1}Clicks`).textContent = `(${tableClicks[index]} кліків)`
+            })
+        })
+    </script>
+
+</body>
+</html>

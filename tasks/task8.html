@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <title>task-8</title>
+</head>
+<body>
+    <h3>
+        Ловля тараканів. Зображення тараканів з’являються в центрі контейнера і випадковим чином «розбігаються» у випадкових напрямках. При кліку на зображенні таракана його рух припиняється і виводиться зображення сплячого таракана.
+    </h3><hr>
+
+    <style>
+        .container {
+            position: relative;
+            width: 100%;
+            height: 500px;
+            border: 2px solid black;
+            overflow: hidden;
+        }
+        .roach {
+            position: absolute;
+            cursor: pointer;
+        }
+        img{
+            width: 40px;
+        }
+    </style>
+
+    <div class="container" id="container"></div>
+
+    <script>
+        class RoachGame {
+            constructor(containerId, numRoaches) {
+                this.container = document.getElementById(containerId)
+                this.numRoaches = numRoaches
+                this.roaches = []
+
+                for (let i = 0; i < this.numRoaches; i++) {
+                    this.createRoach()
+                }
+            }
+
+            createRoach() {
+                const roach = document.createElement('img')
+                roach.src = '../img/roach.png'
+                roach.classList.add('roach')
+
+                const roachSize = 30
+
+                const centerX = this.container.clientWidth / 2 - roachSize / 2
+                const centerY = this.container.clientHeight / 2 - roachSize / 2
+
+                roach.style.left = centerX + 'px'
+                roach.style.top = centerY + 'px'
+
+                roach.addEventListener('click', () => {
+                    if (!roach.classList.contains('sleeping')) {
+                        roach.src = '../img/sleeping-roach.png'
+                        roach.classList.add('sleeping')
+                    }
+                })
+
+                this.container.appendChild(roach)
+
+                const randomDirectionX = Math.random() * 2 - 1
+                const randomDirectionY = Math.random() * 2 - 1
+
+                const roachObj = {
+                    element: roach,
+                    directionX: randomDirectionX,
+                    directionY: randomDirectionY,
+                }
+
+                this.roaches.push(roachObj)
+                this.moveRoach(roachObj)
+            }
+
+            moveRoach(roachObj) {
+                const roach = roachObj.element
+                const roachSize = 40
+                const maxX = this.container.clientWidth - roachSize
+                const maxY = this.container.clientHeight - roachSize
+
+                function animate() {
+                    if (!roach.classList.contains('sleeping')) {
+                        let currentX = parseFloat(roach.style.left)
+                        let currentY = parseFloat(roach.style.top)
+
+                        if (currentX + roachSize > maxX || currentX < 0) {
+                            roachObj.directionX *= -1
+                        }
+                        if (currentY + roachSize > maxY || currentY < 0) {
+                            roachObj.directionY *= -1
+                        }
+
+                        currentX += roachObj.directionX * Math.random() * 5
+                        currentY += roachObj.directionY * Math.random() * 5
+
+                        roach.style.left = currentX + 'px'
+                        roach.style.top = currentY + 'px'
+
+                        requestAnimationFrame(animate)
+                    }
+                }
+                animate()
+            }
+        }
+        const roachGame = new RoachGame('container', 10)
+    </script>
+
+</body>
+</html>

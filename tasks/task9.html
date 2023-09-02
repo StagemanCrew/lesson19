@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <title>task-9</title>
+</head>
+<body>
+    <h3>
+        У таблиці випадковим чином розташовуємо зайця. Користувач розміщує пастку. Заєць робить хід у випадковому напрямку. Якщо заєць потрапив у пастку, то гру закінчено. Інакше пастка зникає  з попередньої позиції і користувач має можливість поставити пастку у іншій клітинці клікнувши на неї.
+    </h3><hr>
+
+    <style>
+        .cell {
+            width: 40px;
+            height: 40px;
+            padding: 5px;
+            background-color: gray;
+            position: relative;
+        }
+        .rabbit {
+            background-image: url('../img/rabbit.png');
+            background-size: cover;
+        }
+        .trap {
+            background-color: red;
+        }
+        button{
+            margin-top: 10px;
+        }
+    </style>
+
+    <table border="2px">
+        <tr>
+            <td class="cell"></td>
+            <td class="cell"></td>
+            <td class="cell"></td>
+        </tr>
+        <tr>
+            <td class="cell"></td>
+            <td class="cell"></td>
+            <td class="cell"></td>
+        </tr>
+        <tr>
+            <td class="cell"></td>
+            <td class="cell"></td>
+            <td class="cell"></td>
+        </tr>
+    </table>
+
+    <button id="newGameButton" style="display: none;">Нова гра</button><hr>
+
+    <script>
+
+        class Game {
+            constructor() {
+                this.rabbitPosition = [-1, -1]
+                this.trapPosition = [-1, -1]
+                this.rabbitInterval = null
+
+                this.initialize()
+            }
+
+            initialize() {
+                this.assignClickHandlers()
+                this.startNewGame()
+            }
+
+            assignClickHandlers() {
+                const cells = document.querySelectorAll('.cell')
+                cells.forEach(cell => {
+                    cell.addEventListener('click', () => this.cellClick(cell))
+                })
+
+                const newGameButton = document.getElementById('newGameButton')
+                newGameButton.addEventListener('click', () => this.startNewGame())
+            }
+
+            cellClick(cell) {
+                const rowIndex = cell.parentNode.rowIndex
+                const colIndex = cell.cellIndex
+
+                if (this.trapPosition[0] === rowIndex && this.trapPosition[1] === colIndex) {
+                    this.removeTrap()
+                } else {
+                    this.removeTrap()
+                    cell.classList.add('trap')
+                    this.trapPosition = [rowIndex, colIndex]
+                }
+            }
+
+            removeTrap() {
+                const trapCell = document.querySelector('.trap')
+                if (trapCell) {
+                    trapCell.classList.remove('trap')
+                }
+                this.trapPosition = [-1, -1]
+            }
+
+            moveRabbit() {
+                try {
+                    const rabbitCell = document.querySelector('.rabbit')
+                    if (!rabbitCell) {
+                        console.error("Rabbit element not found.")
+                        return
+                    }
+                    rabbitCell.classList.remove('rabbit')
+
+                    const directions = [[-1, 0], [1, 0], [0, -1], [0, 1]]
+                    const randomDirection = directions[Math.floor(Math.random() * directions.length)]
+
+                    const newRow = this.rabbitPosition[0] + randomDirection[0]
+                    const newCol = this.rabbitPosition[1] + randomDirection[1]
+
+                    if (newRow >= 0 && newRow < 3 && newCol >= 0 && newCol < 3) {
+                        this.rabbitPosition = [newRow, newCol]
+                    }
+
+                    const newRabbitCell = document.querySelectorAll('tr')[this.rabbitPosition[0]].children[this.rabbitPosition[1]]
+                    newRabbitCell.classList.add('rabbit')
+
+                    if (this.rabbitPosition[0] === this.trapPosition[0] && this.rabbitPosition[1] === this.trapPosition[1]) {
+                        clearInterval(this.rabbitInterval)
+                        alert('Гра закінчена! Зайць потрапив у пастку.')
+                        document.getElementById('newGameButton').style.display = 'block'
+                    }
+                } catch (error) {
+                    console.error("An error occurred:", error)
+                }
+            }
+
+            startNewGame() {
+                clearInterval(this.rabbitInterval)
+
+                const rabbitCell = document.querySelector('.rabbit')
+                if (rabbitCell) {
+                    rabbitCell.classList.remove('rabbit')
+                }
+
+                this.removeTrap()
+
+                this.rabbitPosition = [Math.floor(Math.random() * 3), Math.floor(Math.random() * 3)]
+                const randomRabbitCell = document.querySelectorAll('tr')[this.rabbitPosition[0]].children[this.rabbitPosition[1]]
+                randomRabbitCell.classList.add('rabbit')
+
+                this.rabbitInterval = setInterval(() => this.moveRabbit(), 1000)
+
+                const newGameButton = document.getElementById('newGameButton')
+                newGameButton.style.display = 'none'
+            }
+        }
+        const game = new Game()
+
+    </script>
+
+</body>
+</html>

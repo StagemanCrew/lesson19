@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>task-3</title>
+
+</head>
+<body>
+    <h3>
+        Дано 5 випадковим чином згенерованих нумерованих списків з рандомними числами (кількість елементів у списку випадкова від 1 до 10, елементи випадкові – від 1 до 100). При натисненні на кнопку нумеровані списки з парною кількістю елементів зафарбувати у зелений колір, інші у червоний.
+    </h3><hr>
+    <style>
+        .list {
+            padding: 5px;
+            margin: 10px;
+            display: inline-block;
+        }
+    </style>
+
+    <button id="colorButton">Color Lists</button>
+    <div id="listsContainer"></div><hr>
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const listsContainer = document.getElementById("listsContainer")
+            const colorButton = document.getElementById("colorButton")
+            colorButton.addEventListener("click", colorLists)
+            function colorLists() {
+                const lists = listsContainer.querySelectorAll(".list")
+                lists.forEach((list) => {
+                    const items = list.getElementsByTagName("li")
+                    const isEven = items.length % 2 === 0
+                    if (isEven) {
+                        list.style.backgroundColor = "green"
+                    } else {
+                        list.style.backgroundColor = "red"
+                    }
+                })
+            }
+            // Generate random lists
+            for (let i = 0; i < 5; i++) {
+                const list = document.createElement("ol")
+                list.className = "list"
+                const itemCount = Math.floor(Math.random() * 10) + 1
+                for (let j = 0; j < itemCount; j++) {
+                    const listItem = document.createElement("li")
+                    listItem.textContent = Math.floor(Math.random() * 100) + 1
+                    list.appendChild(listItem)
+                }
+                listsContainer.appendChild(list)
+            }
+        })
+
+    </script>
+
+</body>
+</html>
+
+    <!-- <script>
+
+        const listStyles = {
+                padding: '5px',
+                margin: '10px',
+                display: 'inline-block',
+            }
+
+        document.addEventListener("DOMContentLoaded", function () {
+        const listsContainer = document.getElementById("listsContainer");
+        const colorButton = document.getElementById("colorButton");
+        colorButton.addEventListener("click", colorLists);
+        function colorLists() {
+            const lists = listsContainer.querySelectorAll(".list");
+            lists.forEach((list) => {
+            const items = list.getElementsByTagName("li");
+            const isEven = items.length % 2 === 0;
+            if (isEven) {
+                list.style.backgroundColor = "green";
+            } else {
+                list.style.backgroundColor = "red";
+            }
+            });
+        }
+        // Generate random lists
+        for (let i = 0; i < 5; i++) {
+            const list = document.createElement("ul");
+            list.className = "list";
+            const itemCount = Math.floor(Math.random() * 10) + 1;
+            for (let j = 0; j < itemCount; j++) {
+            const listItem = document.createElement("li");
+            listItem.textContent = Math.floor(Math.random() * 100) + 1;
+            list.appendChild(listItem);
+            }
+            listsContainer.appendChild(list);
+        }
+        });
+    </script> -->

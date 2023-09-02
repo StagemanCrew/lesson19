@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>task-2</title>
+</head>
+<body>
+    <h3>
+        Дано 5 елементів input.<br> При введенні значення у якийсь із них необхідно автоматично заповнювати інші (усі попередні у спадному порядку(кожен попередній має значення на 1 менше за наступний), усі наступні на 1 більше (кожен наступне на 1 більше за попереднього)).
+    </h3><hr>
+
+    <section class="wrapper">
+        <div>Value 1<input type="number" id="item" value=""/></div>
+        <div>Value 2<input type="number" id="item" value=""/></div>
+        <div>Value 3<input type="number" id="item" value=""/></div>
+        <div>Value 4<input type="number" id="item" value=""/></div>
+        <div>Value 5<input type="number" id="item" value=""/></div>
+    </section><hr>
+
+    <script>
+        // Отримання посилань на HTML елементи
+        const inputElements = document.querySelectorAll('.wrapper input[type="number"]')
+
+        // Додавання обробника події для кожного введення
+        inputElements.forEach((input, index) => {
+            input.addEventListener('input', (event) => {
+                const value = parseInt(event.target.value)
+
+                // Перевірка, чи введене значення є числом
+                if (!isNaN(value)) {
+                    // Заповнення попередніх елементів спадною послідовністю
+                    for (let i = index - 1; i >= 0; i--) {
+                        inputElements[i].value = value - (index - i)
+                    }
+
+                    // Заповнення наступних елементів зростаючою послідовністю
+                    for (let i = index + 1; i < inputElements.length; i++) {
+                        inputElements[i].value = value + (i - index)
+                    }
+                }
+            })
+        })
+    </script>
+
+</body>
+</html>
+
+    <!-- <script>// document.getElementById('item').onchange = convert
+
+        //1.Вводимо даннi
+
+        //2.Знаходимо результат - oninput(lesson-18 / 2:57:50)
+
+        //3.Виводимо результат
+
+    </script> -->

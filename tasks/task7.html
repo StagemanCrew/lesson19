@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>task-7</title>
+</head>
+<body>
+    <h3>
+        Відобразити падаючий сніг. Сніжинка з’являється у верхній частині екрану (top =0) і з випадковою швидкістю рухається вниз (у setInterval викликати метод, у якому додавати крок до top). Як тільки сніжинка досягає нижньої частини екрану (top>maxTop) вона знову повинна з’явитись у верхній частині екрану (top=0).
+    </h3><hr>
+
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+        .snowflake {
+            position: absolute;
+            font-size: 20px;
+            color: rgb(0, 140, 255);
+            user-select: none;
+        }
+    </style>
+
+    <script>
+        const maxTop = window.innerHeight
+        
+        function createSnowflake() {
+            const snowflake = document.createElement('div')
+            snowflake.className = 'snowflake'
+            snowflake.innerHTML = '❄'
+            snowflake.style.left = `${Math.random() * window.innerWidth}px`
+            document.body.appendChild(snowflake)
+            return snowflake
+        }
+        
+        function animateSnowflake(snowflake) {
+            let top = -250
+            const speed = Math.random() * 2 + 2
+            
+            function step() {
+                top += speed
+                if (top > maxTop) {
+                top = 0
+                snowflake.style.left = `${Math.random() * window.innerWidth}px`
+                }
+                snowflake.style.top = `${top}px`
+                requestAnimationFrame(step)
+            }
+            step()
+        }
+        
+        function startSnowfall() {
+            for (let i = 0; i < 15; i++) {
+                const snowflake = createSnowflake()
+                animateSnowflake(snowflake)
+            }
+        }
+        startSnowfall()
+    </script>
+</body>
+</html>
